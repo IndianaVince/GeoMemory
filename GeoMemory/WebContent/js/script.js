@@ -9,9 +9,30 @@
 
 
 		var tiles = [];
-
-		var c = document.getElementById("myCanvas");
-		var ctx = c.getContext("2d");
+		
+		/* 
+		 * Creation d'un tableau contenant les coord en x et y de chaque tuile.
+		 * Il servira à :
+		 * - "distribuer" les coords à la création des tuiles
+		 * - à savoir si la souris est sur une tuile ou sur un espace vide.
+		 * 
+		 */
+		var coordTiles = [];
+		
+		for (var i = 0; i < NUM_COLS; i++) {
+			for (var j = 0; j < NUM_ROWS; j++) {
+				coordTiles.push(new Coord(
+						i * (LARGEUR_TUILE + 20) + 20 ,
+						j * (HAUTEUR_TUILE + 20) + 20 
+					)
+				);
+			}
+		}
+		
+		console.log(coordTiles[1].x);
+		
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
 
 		var faces = [
 			getImage("./img/leafers-seed.png"),
@@ -30,26 +51,20 @@
 		
 		/*Initialisation tableau de tuiles*/
 
-		var k = 0
-		for (var i = 0; i < NUM_COLS; i++) {
-			for (var j = 0; j < NUM_ROWS; j++) {
-				
-				//Ramène les indices i et j au même plan que le tableau faces.
-				//if ((i*NUM_ROWS + j) % 2 == 0){k++;}
-				
+		
+		for (var i = 0; i < coordTiles.length ; i++) {
+							
 				tiles.push(
 					new Tile(
-						i * (LARGEUR_TUILE + 20) + 20, 
-						j * (HAUTEUR_TUILE + 20) + 20, 
+						coordTiles[i].x, 
+						coordTiles[i].y, 
 						LARGEUR_TUILE, 
 						HAUTEUR_TUILE, 
 						IMG_BACK,
 						IMG_BACK // L'image de face viendra plus tard
 					)
 				);
-				
 			}
-		}
 		
 	//Placement de chaque image de faces[] dans 2 emplacements aléatoires de tiles[].
 		for(var i=0 ; i < tiles.length/2 ; i++){
@@ -72,20 +87,29 @@
 		}	
 		
 	
-		/*Dessin des tuiles
-		TODO : Dessiner avec l'image.*/
+		/*Dessin des tuiles.*/
 		for (var i = 0; i < tiles.length; i++) {
 			displayRoundRect(
 				ctx, 
 				tiles[i], 
 				6
 			);
-		}		
-		
+		}	
 
-		tiles[6].retourner();
+		/*A l'écoute du mouvement de la souris.*/
+		canvas.addEventListener('mousemove', function(evt) {
+		    var mousePos = getMousePos(canvas, evt);
+		    
+		    var message = 'Mouse position: ' + mousePos.x + ' - ' + mousePos.y;
+		    console.log(message);
+		}, false);
+
+		/*tiles[6].retourner();
 		hideRoundRect(ctx, tiles[6]);
-		displayRoundRect(ctx, tiles[6], 6);
+		displayRoundRect(ctx, tiles[6], 6);*/
+		
+		
 		
 	}
+	
 })();

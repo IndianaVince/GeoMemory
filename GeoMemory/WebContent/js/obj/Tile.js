@@ -14,7 +14,7 @@ var Tile = function(x, y, width, height, imgBack, imgFront) {
 	this.height = height;
 	this.imgBack = imgBack;
 	this.imgFront = imgFront;
-	this.imgVisible = imgFront;
+	this.imgVisible = imgBack; //Choix du placement par défaut
 };
 
 Tile.prototype.getX  = function() {
@@ -34,7 +34,7 @@ Tile.prototype.getHeight  = function() {
 }
 
 Tile.prototype.getImgVisible  = function() {
-	return this.imgVisible;
+	return this.imgFront;
 }
 
 Tile.prototype.retourner  = function() {

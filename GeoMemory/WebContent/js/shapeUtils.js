@@ -1,3 +1,12 @@
+/*Renvoie les coord de la souris*/
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+    	x: Math.round((evt.clientX-rect.left)/(rect.right-rect.left)*canvas.width),
+    	y: Math.round((evt.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height)
+    };
+  }
+
 function getImage(url) {
 	var img = new Image();
 	img.onload = function(){
